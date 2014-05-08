@@ -30,7 +30,15 @@ module Evercookie
     #   evercookie_is_set?(:key, :value)
     #
     def evercookie_is_set?(key, value = nil)
-      if value.nil?
+      #> session[Evercookie.hash_name_for_saved]
+      #=> nil
+      #fails with
+      #NoMethodError: undefined method `[]' for nil:NilClass
+      #from /usr/local/lib/ruby/gems/2.0.0/gems/evercookie-0.0.5/lib/evercookie/controller.rb:34:in `evercookie_is_set?'
+
+      if session[Evercookie.hash_name_for_saved].blank?
+        false
+      elsif value.nil?
         session[Evercookie.hash_name_for_saved][key].present?
       else
         session[Evercookie.hash_name_for_saved][key].present? \
